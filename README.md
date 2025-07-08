@@ -1,39 +1,35 @@
-# 🚖 Cab Demand Prediction using LightGBM & Multi-Output Regressor
+NYC Cab Demand Prediction
+This project aims to predict the cab demand in different zones of New York City using historical trip data, weather information, and various machine learning models. It helps to optimize cab availability and improve service efficiency.
 
-This project predicts cab demand across multiple regions of a city using machine learning. It integrates real-time weather data and location-based features from mapping APIs to enhance accuracy. The model uses **LightGBM** wrapped in a **Multi-Output Regressor** to handle simultaneous prediction for multiple zones.
+Project Structure
+Cab-Demand-Prediction/ ├── Code/ │ ├── Backend/ │ │ ├── API.py │ │ ├── train_ml.py │ │ └── fetch_historical_weather.py │ ├── Frontend/ │ │ ├── index.html │ │ ├── style.css │ │ ├── script.js │ │ └── accuary.py ├── .gitignore ├── README.md
 
----
+💡 Features
+🔍 Predicts cab demand per zone using historical FHV data
+🌦 Integrates weather data to improve prediction accuracy
+📊 Evaluates performance with MAE, RMSE, and zone-wise metrics
+🖥️ Simple frontend visualization with charts and stats
+🚀 REST API for prediction (Flask-based backend)
+🔗 Dataset Source
+We use NYC’s open public dataset for cab rides:
 
-## 📌 Objectives
+👉 TLC Trip Record Data
 
-- Predict the number of cab bookings for multiple zones in a city
-- Leverage external features such as weather and events to improve model performance
-- Build a scalable, modular machine learning pipeline
+The dataset includes detailed trip-level records like pickup time, location, and more.
 
----
+🛠️ Tech Stack
+Python – Data preprocessing & ML model training
+LightGBM – Machine learning model for demand prediction
+Pandas / NumPy – Data analysis
+Parquet – Efficient data storage
+Flask – Backend API
+HTML / CSS / JS – Frontend interface
+Chart.js – Graphs and charts
+🧹 Excluded from GitHub
+To keep the repository lightweight and within GitHub’s limits:
 
-## 📊 Key Features
-
-- LightGBM-based multi-target regression
-- Real-time weather data integration via **OpenWeatherMap API**
-- Map and location enrichment via **OpenStreetMap** or **Mapbox API**
-- Exploratory data analysis, training, and evaluation notebooks
-- Visualization of predicted vs actual cab demand
-
----
-
-## 🛠️ Tech Stack
-
-- **Language**: Python
-- **ML Models**: LightGBM, MultiOutputRegressor (`sklearn`)
-- **APIs**:
-  - Weather: OpenWeatherMap API
-  - Map/Event Data: OpenStreetMap / Mapbox / HERE Maps (optional)
-- **Libraries**:
-  - `pandas`, `numpy` – Data processing
-  - `lightgbm`, `scikit-learn` – ML modeling
-  - `requests`, `dotenv` – API integration
-  - `matplotlib`, `seaborn` – Visualization
-
----
-
+📁 Code/Dataset/ – Raw trip data files
+📁 Code/Backend/models_ml/ – Trained ML models
+📁 Code/Backend/processed_data_ml/ – Processed intermediate data
+📁 Documentation/ – PDF/DOCX reports and presentations
+📄 Large files over 100 MB (handled with .gitignore)
