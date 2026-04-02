@@ -10,6 +10,9 @@ import os
 import requests
 import json
 import traceback
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Import model types required by joblib for loading
 import lightgbm as lgb
@@ -17,9 +20,10 @@ from sklearn.multioutput import MultiOutputRegressor
 from sklearn.preprocessing import MinMaxScaler
 
 # --- Configuration ---
-# ... (Keep configuration as before) ...
-MODEL_DIR = "D:\\Projects\\Cab Demand Prediction - Copy\\Code\\Backend\\models_ml/"
-WEATHER_API_KEY = os.environ.get("WEATHER_API_KEY", "19588a43a473ec2b97e25d5758972d61")
+# MODEL_DIR should be relative to the script's directory
+BASE_PATH = os.path.dirname(os.path.abspath(__file__))
+MODEL_DIR = os.path.join(BASE_PATH, "models_ml")
+WEATHER_API_KEY = os.environ.get("WEATHER_API_KEY") or "19588a43a473ec2b97e25d5758972d61"
 WEATHER_API_ENDPOINT = "https://api.openweathermap.org/data/2.5/forecast"
 NYC_LAT = 40.7128
 NYC_LON = -74.0060
@@ -32,26 +36,43 @@ OWM_FORECAST_MAP = {  # Adjust as needed
 }
 
 print("--- API Server Starting ---")
-# ... (Load Model Assets - these are global) ...
+# --- Load Model Assets ---
 try:
     model_path = os.path.join(MODEL_DIR, "lgbm_demand_model.joblib")
-    model = joblib.load(model_path)
-    print(f"Model loaded.")
+    if os.path.exists(model_path):
+        model = joblib.load(model_path)
+        print(f"Model loaded.")
+    else:
+        print(f"WARNING: Model file not found at {model_path}. Using mock mode.")
+        model = None
 
     feature_scaler_path = os.path.join(MODEL_DIR, "feature_scaler_ml.joblib")
-    feature_scaler = joblib.load(feature_scaler_path)
-    print(f"Feature scaler loaded.")
+    if os.path.exists(feature_scaler_path):
+        feature_scaler = joblib.load(feature_scaler_path)
+        print(f"Feature scaler loaded.")
+    else:
+        print(f"WARNING: Feature scaler not found. Prediction results will be mocked.")
+        feature_scaler = None
 
     zone_order_path = os.path.join(MODEL_DIR, "zone_order_ml.joblib")
-    ZONE_ORDER = joblib.load(zone_order_path)
-    NUM_ZONES = len(ZONE_ORDER)
-    print(f"Zone order loaded ({NUM_ZONES} zones).")
+    if os.path.exists(zone_order_path):
+        ZONE_ORDER = joblib.load(zone_order_path)
+        NUM_ZONES = len(ZONE_ORDER)
+        print(f"Zone order loaded ({NUM_ZONES} zones).")
+    else:
+        # Fallback zones if order not available
+        # Default many NYC zones
+        ZONE_ORDER = [str(i) for i in range(1, 264)]
+        NUM_ZONES = len(ZONE_ORDER)
+        print(f"WARNING: Zone order not found. Using default 263 zones.")
 
     feature_names_path = os.path.join(MODEL_DIR, "feature_names_ml.joblib")
-    EXPECTED_FEATURES = joblib.load(feature_names_path)
-    print(
-        f"Model expects features ({len(EXPECTED_FEATURES)} total)."
-    )  # : {EXPECTED_FEATURES}") # Keep log shorter
+    if os.path.exists(feature_names_path):
+        EXPECTED_FEATURES = joblib.load(feature_names_path)
+        print(f"Model expects {len(EXPECTED_FEATURES)} features.")
+    else:
+        EXPECTED_FEATURES = []
+        print(f"WARNING: Feature names not found.")
 
     time_feature_names_list = [
         "hour",
@@ -269,4 +290,4 @@ def predict():
 if __name__ == "__main__":
     print("\n--- Starting Flask Server ---")
     # ... (print endpoint etc) ...
-    app.run(debug=False, host="0.0.0.0", port=5000)
+    app.run(debug=False, host="0.0.0.0", port=8000)

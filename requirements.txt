@@ -1,0 +1,12 @@
+flask
+flask-cors
+pandas
+numpy
+joblib
+holidays
+requests
+lightgbm
+scikit-learn
+meteostat
+pyarrow
+python-dotenv
