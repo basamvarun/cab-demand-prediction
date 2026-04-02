@@ -5,10 +5,8 @@ venv/
 # Root level data
 *.csv
 *.parquet
-*.joblib
 
 # Directory specific exclusions
-Backend/models_ml/
 Backend/processed_data_ml/
 Dataset/
 __pycache__/
