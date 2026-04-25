@@ -25,12 +25,6 @@ This project addresses the "Cold Start" and "Relocation" problems for ride-haili
 
 ---
 
-## 📉 Engineering Highlights (FAANG/Quant Level)
-- **High-Impact Feature Engineering**: Implemented Fourier transforms (Sine/Cosine) for temporal cyclicality and weighted holiday-variance scoring.
-- **Geospatial Optimization**: Developed custom GeoJSON mapping and geospatial indexing for 260+ unique NYC zones.
-- **System Latency**: Optimized inference pipeline and data storage (Parquet) to ensure real-time responsiveness for dashboard queries.
-
----
 
 ## 🏗️ Project Structure
 ```text
